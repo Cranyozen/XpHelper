@@ -1,0 +1,11 @@
+{
+    "id": "xp_helper",
+    "version": "1.0.0",
+    "name": "Xp Helper",
+    "description": "Xp Management",
+    "entrypoint": "xp_helper.main",
+    "dependencies": {
+        "mcdreforged": ">=2.6.0",
+        "minecraft_data_api": ">=1.5.0"
+    }
+}

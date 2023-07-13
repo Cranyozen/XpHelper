@@ -1,0 +1,36 @@
+xp_helper:
+  desc: "Provides various useful tools about experience"
+  helper-command: "Helper Command"
+  command-desc:
+    root: "§7Show this help message§r"
+    info: "Get player experience information"
+    info-helper: "Get experience information for the specified player"
+    move: "Move player experience to the specified player"
+    move-helper: "Move the specified player's experience to the specified player"
+    drop: "Convert player experience to experience balls"
+    drop-helper: "Convert the specified player's experience to experience balls"
+    repair: "Repair player equipment"
+    repair-helper: "Repair the specified player's equipment"
+    repair-auto: "Query, turn on or off player automatic repair"
+    repair-auto-helper: "Query, turn on or off the specified player's automatic repair"
+    reload: "Reload configuration file"
+  command:
+    info: "§2Player {player} has {point} points of experience, {level:.2f} levels in total\nEquipment damage {durability} points of durability, estimated to need {need} points of experience§r"
+    move:
+      success: "§aSuccessfully moved {source} points of experience from {player} to {target}§r"
+      same_player: "§cError: Source player and target player cannot be the same§r"
+    drop:
+      process: "§aConverting {source} points of experience from {player} to experience balls§r"
+      success: "§aSuccessfully converted {source} points of experience from {player} to experience balls§r"
+    repair:
+      process: "§aRepairing {player}'s equipment§r\nIt is recommended to turn on Tweakroo's experience repair mode"
+      break: "§9Repair stopped§r"
+      success: "§aSuccessfully repaired {player}'s equipment, a total of {total} points of experience consumed§r"
+  xp_enough: "§aPlayer {player} has enough experience, estimated to be {after:.2f} levels after fixing§r"
+  xp_not_enough: "§cPlayer {player} does not have enough experience. Expected needs {after:.2f} levels to upgrade§r"
+  ask_sure: "§9Are you sure you want to do this? §r\nPlease make sure you are in a safe area and there are no other players around\n§cThis operation is irreversible!§r\n"
+  click_to_confirm: "§aClick here to confirm this operation§r"
+  confirm_in_console: "§aExecute this command to confirm this operation: §r{command}"
+  player_not_found: "§cError: Player not found§r"
+  cannot_use_in_console: "§cError: This command is not allowed to run in the command line§r"
+  invalid_number: "§cError: Invalid number '{num}'§r"

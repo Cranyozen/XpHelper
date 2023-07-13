@@ -1,0 +1,43 @@
+xp_helper:
+  desc: "提供各种关于经验的实用工具"
+  helper-command: "助手命令"
+  command-desc:
+    root: "§7显示本条帮助信息§r"
+    info: "获取玩家的经验信息"
+    info-helper: "获取指定玩家的经验信息"
+    move: "移动玩家的经验至指定玩家"
+    move-helper: "移动指定玩家的经验至指定玩家"
+    drop: "将玩家的经验转化为经验球"
+    drop-helper: "将指定玩家的经验转化为经验球"
+    repair: "修复玩家的装备"
+    repair-helper: "修复指定玩家的装备"
+    repair-auto: "查询、开启或关闭玩家自动修复"
+    repair-auto-helper: "查询、开启或关闭指定玩家自动修复"
+    reload: "重新加载配置文件"
+  command:
+    info: "§2玩家 {player} 共有 {point} 点经验, 共计 {level:.2f} 级§r\n§2装备损耗 {durability} 点耐久, 预计需要 {need} 点经验§r"
+    move:
+      success: "§a成功将 {source} 的 {point} 点经验移动至 {target}§r"
+      same_player: "§c错误: 源玩家和目标玩家不能相同§r"
+    drop:
+      process: "§a正在将 {player} 的 {point} 点经验转化为经验球§r"
+      success: "§a成功将 {player} 的 {point} 点经验转化为经验球§r"
+    repair:
+      process: "§a正在修复 {player} 的装备§r\n建议开启 Tweakroo 的经验修补模式"
+      break: "§9修复停止§r"
+      success: "§a成功修复 {player} 的装备, 共消耗 {total} 点经验§r"
+    auto_repair:
+      status:
+        on: "§a开启§r"
+        off: "§c关闭§r"
+      info: "玩家 {player} 的自动修复状态为 {status}"
+      already: "玩家 {player} 的自动修复§l已经§r为 {status}§r"
+      set: "玩家 {player} 的自动修复状态§l设置§r为 {status}§r"
+  xp_enough: "§a玩家 {player} 的经验充足, 预计修复完成后为 {after:.2f} 级§r"
+  xp_not_enough: "§c玩家 {player} 的经验不足  预计需要到达 {after:.2f} 级§r"
+  ask_sure: "§9您确定要执行此操作吗? §r\n请确定您处于安全区域内, 且周围没有其他玩家\n§c此操作不可逆!§r\n"
+  click_to_confirm: "§a点击此处确认执行此操作§r"
+  confirm_in_console: "§a执行此命令确认执行此操作: §r{command}"
+  player_not_found: "§c错误: 未找到该玩家§r"
+  cannot_use_in_console: "§c错误: 此命令不允许在命令行中运行§r"
+  invalid_number: "§c错误: 无效的数字 '{num}'§r"
