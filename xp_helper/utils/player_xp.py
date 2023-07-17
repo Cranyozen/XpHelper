@@ -1,10 +1,19 @@
 from mcdreforged.api.types import InfoCommandSource
 
-from xp_helper.utils.xp_convert import get_level_by_point
-from xp_helper.utils.common import tr, get_player_info, server
+from xp_helper.utils.xp_convert import get_level_by_point, get_point_by_level
+from xp_helper.utils.common import tr, get_player_info, server, run_command_with_rcon
+
+import re
+
+xp_query_re_compile = re.compile("^.*? has (\d*) experience (levels|points)$")
 
 def get_player_xp(src: InfoCommandSource, player: str) -> int:
-    return int(get_player_info(src, player, "XpTotal"))
+    level = xp_query_re_compile.match(run_command_with_rcon(f"xp query {player} levels"))
+    point = xp_query_re_compile.match(run_command_with_rcon(f"xp query {player} points"))
+    print(level.group(1), point.group(1))
+    if not (level and point):
+        return 0
+    return int(get_point_by_level(int(level.group(1))) + int(point.group(1))) + 1
 
 def remove_player_xp(src: InfoCommandSource, player: str, amount: int):
     if amount < 0:
