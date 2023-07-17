@@ -10,11 +10,14 @@ float_compile = re.compile(r'^0\.\d*$')
 def tr(tag: str, *args, **kwargs):
     return PluginServerInterface.get_instance().tr(f'xp_helper.{tag}', *args, **kwargs)
 
-def get_player_list() -> list:
+def run_command_with_rcon(command: str) -> str:
     if not server.is_rcon_running():
         server.logger.warning("Please config rcon of server correctly.")
-        return []
-    res = server.rcon_query('list').split(": ")[1]
+        return None
+    return server.rcon_query(command)
+
+def get_player_list() -> list:
+    res = run_command_with_rcon('list').split(": ")[1]
     if res:
         return res.split(", ")
     else:
@@ -22,12 +25,7 @@ def get_player_list() -> list:
 
 def get_player_info(src: InfoCommandSource, player: str, path: str):
     MCDataAPI = server.get_plugin_instance('minecraft_data_api')
-
-    if not server.is_rcon_running():
-        server.logger.warning("Please config rcon of server correctly.")
-        return None
-    
-    res = server.rcon_query(f'data get entity {player} {path}')
+    res = run_command_with_rcon(f'data get entity {player} {path}')
     if res.startswith("Found no elements"):
         return None
     else:
