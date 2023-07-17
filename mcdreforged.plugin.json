@@ -1,6 +1,6 @@
 {
     "id": "xp_helper",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "name": "Xp Helper",
     "description": "Xp Management",
     "entrypoint": "xp_helper.main",
