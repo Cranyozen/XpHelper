@@ -51,8 +51,8 @@ def xp_auto_repair():
         for player in get_player_list():
             if player in config.auto_repair_player_list:
                 durability = int(get_player_repair_durability_value(fake_src(player), player))
-                if durability > 0:
-                    point = get_require_point_by_durability(durability)
+                point = int(get_require_point_by_durability(durability))
+                if point > 0:
                     if get_player_xp(fake_src(player), player) < get_require_point_by_durability(durability):
                         server.tell(player, tr("xp_not_enough", player=player, after=get_level_by_point(point)))
                         continue
