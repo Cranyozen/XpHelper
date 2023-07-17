@@ -10,7 +10,6 @@ xp_query_re_compile = re.compile("^.*? has (\d*) experience (levels|points)$")
 def get_player_xp(src: InfoCommandSource, player: str) -> int:
     level = xp_query_re_compile.match(run_command_with_rcon(f"xp query {player} levels"))
     point = xp_query_re_compile.match(run_command_with_rcon(f"xp query {player} points"))
-    print(level.group(1), point.group(1))
     if not (level and point):
         return 0
     return int(get_point_by_level(int(level.group(1))) + int(point.group(1))) + 1
