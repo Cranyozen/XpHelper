@@ -10,7 +10,6 @@ from xp_helper.config import config
 from xp_helper.handles.xp_drop import xp_drop_handle
 
 import time
-import threading
 
 auto_repair_running = True
 
