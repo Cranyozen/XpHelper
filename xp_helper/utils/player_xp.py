@@ -12,7 +12,7 @@ def get_player_xp(src: InfoCommandSource, player: str) -> int:
     point = xp_query_re_compile.match(run_command_with_rcon(f"xp query {player} points"))
     if not (level and point):
         return 0
-    return int(get_point_by_level(int(level.group(1))) + int(point.group(1))) + 1
+    return int(get_point_by_level(int(level.group(1))) + int(point.group(1)))
 
 def remove_player_xp(src: InfoCommandSource, player: str, amount: int):
     if amount < 0:
