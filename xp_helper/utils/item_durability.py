@@ -135,7 +135,7 @@ def get_require_point_by_durability(durability: int) -> int:
     Returns:
         int: 所需点数
     """
-    return int((durability) * config.mending_rate)
+    return int((durability) * config.mending_rate) + 1
 
 def check_item(item_id: str) -> bool:
     """检查物品是否为可修复物品
