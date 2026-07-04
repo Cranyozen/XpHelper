@@ -1,6 +1,4 @@
-from mcdreforged.api.utils import Serializable
-
-from xp_helper.utils.common import server
+from mcdreforged import Serializable, ServerInterface
 
 class Config(Serializable):
     repair_max_time: int = 5
@@ -15,6 +13,12 @@ class Config(Serializable):
     helper_permission: int = 2
     summon_orb_direct: bool = True
 
-config: Config
+config: Config = None  # type: ignore[assignment]
 
-config = server.as_plugin_server_interface().load_config_simple(target_class=Config)
+def load_config() -> Config:
+    global config
+    config = ServerInterface.psi().load_config_simple(target_class=Config)
+    return config
+
+def save_config() -> None:
+    ServerInterface.psi().save_config_simple(config)

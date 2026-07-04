@@ -1,6 +1,5 @@
-from mcdreforged.api.types import PluginServerInterface, InfoCommandSource
-from mcdreforged.api.command import Integer, Float, Text, Boolean, Literal
-from mcdreforged.api.rtext import RText, RTextList, RAction
+from mcdreforged import PluginServerInterface, InfoCommandSource, \
+    Integer, Float, Text, Boolean, Literal, RText, RTextList, RAction
 
 from xp_helper.handles.xp_info import xp_info_with_player, xp_info_without_player
 from xp_helper.handles.xp_drop import xp_drop_with_player_all, xp_drop_with_player_amount_rate, \
@@ -18,6 +17,8 @@ PERFIX = "!!xp"
 
 
 def on_load(server: PluginServerInterface, prev_module):
+    from xp_helper.config import load_config
+    load_config()
     server.register_help_message(PERFIX, tr("desc"))
     register_command()
     if server.is_server_startup():
@@ -45,7 +46,7 @@ def print_help_msg(src: InfoCommandSource):
             RText(f"§7{PERFIX} repair <player> auto (true|false): §r").c(RAction.suggest_command, f"{PERFIX} repair "), tr('command-desc.repair-auto-helper'), "\n",
             RText(f"§7{PERFIX} reload: §r").c(RAction.suggest_command, f"{PERFIX} reload"), tr('command-desc.reload'), "\n",
         )
-    
+
     if src.is_player:
         player_msg = RTextList(
             RText(f"§7{PERFIX}: §r").c(RAction.suggest_command, f"{PERFIX}"), tr('command-desc.root'), "\n",
@@ -55,12 +56,12 @@ def print_help_msg(src: InfoCommandSource):
             RText(f"§7{PERFIX} repair <all|rate>: §r").c(RAction.suggest_command, f"{PERFIX} repair all"), tr('command-desc.repair'), "\n",
             RText(f"§7{PERFIX} repair auto (true|false): §r").c(RAction.suggest_command, f"{PERFIX} repair auto "), tr('command-desc.repair-auto'), "\n",
         )
-    
+
     src.reply(RTextList(
         "§a================= Xp Helper =================§r\n",
         player_msg,
         helper_msg,
-        "§9§o======= Powered by Xp Helper v%s  =======§r" % (server.as_plugin_server_interface().get_self_metadata().version)
+        "§9§o======= Powered by Xp Helper v%s  =======§r" % (server.get_self_metadata().version)
     ))
 
 def sure_func(func: callable):
@@ -71,7 +72,7 @@ def sure_func(func: callable):
 def register_command():
     permission_check = lambda src: src.has_permission_higher_than(config.helper_permission)
     is_player = lambda src: src.is_player
-    server.as_plugin_server_interface().register_command(
+    server.register_command(
         Literal(PERFIX).runs(print_help_msg).
         then(
             Literal("info").runs(xp_info_without_player).
@@ -147,6 +148,6 @@ def register_command():
             )
         ).then(
             Literal("reload").requires(permission_check).runs(lambda src: server.
-            reload_plugin(server.as_plugin_server_interface().get_self_metadata().id))
+            reload_plugin(server.get_self_metadata().id))
         )
     )

@@ -1,4 +1,4 @@
-from mcdreforged.api.types import InfoCommandSource
+from mcdreforged import InfoCommandSource
 
 from xp_helper.utils.common import server
 from xp_helper.config import config

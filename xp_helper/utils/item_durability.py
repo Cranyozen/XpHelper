@@ -98,6 +98,7 @@ def get_durability_by_id(item_id: str) -> int:
         int: 对应的耐久
     """
     # pylint: disable=C0201 # Consider iterating the dictionary directly instead of calling .keys()
+    print(f"get_durability_by_id: {item_id}")
     if item_id.startswith("minecraft:"):
         item_id = item_id[10:]
     parts = item_id.split("_")

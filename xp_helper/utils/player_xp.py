@@ -1,4 +1,4 @@
-from mcdreforged.api.types import InfoCommandSource
+from mcdreforged import InfoCommandSource
 
 from xp_helper.utils.xp_convert import get_level_by_point, get_point_by_level
 from xp_helper.utils.common import tr, get_player_info, server, run_command_with_rcon

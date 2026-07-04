@@ -1,4 +1,4 @@
-from mcdreforged.api.types import InfoCommandSource
+from mcdreforged import InfoCommandSource
 
 from xp_helper.utils.item_durability import check_item
 from xp_helper.utils.common import get_player_info

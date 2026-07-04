@@ -1,12 +1,11 @@
-from mcdreforged.api.types import InfoCommandSource, ConsoleCommandSource
-from mcdreforged.api.decorator import new_thread
+from mcdreforged import InfoCommandSource, ConsoleCommandSource, new_thread
 
 from xp_helper.utils.player_xp import get_player_xp
 from xp_helper.utils.player_item import get_player_durability_value, get_player_repair_durability_value
 from xp_helper.utils.xp_convert import get_level_by_point
 from xp_helper.utils.item_durability import get_require_point_by_durability
 from xp_helper.utils.common import tr, ask_for_sure, get_player_list, float_compile, server
-from xp_helper.config import config
+from xp_helper.config import config, save_config
 from xp_helper.handles.xp_drop import xp_drop_handle
 
 import time
@@ -29,7 +28,7 @@ def xp_repair_handle(src: InfoCommandSource, player: str, max_point=None):
             src.reply(tr("xp_not_enough", player=player, after=get_level_by_point(point)))
             src.reply(tr("command.repair.break"))
             break
-        
+
         begin_time = time.time()
         xp_drop_handle(src, player, point)
         total_point += point
@@ -38,26 +37,22 @@ def xp_repair_handle(src: InfoCommandSource, player: str, max_point=None):
         time.sleep(config.repair_interval)
     src.reply(tr("command.repair.success", player=player, total=total_point))
 
-class fake_src:
-    def __init__(self, player):
-        self.player = player
-    def reply(self, msg):
-        server.tell(self.player, msg)
-
 @new_thread("XpHelper_AutoRepair")
 def xp_auto_repair():
     while auto_repair_running:
         for player in get_player_list():
             if player in config.auto_repair_player_list:
-                durability = int(get_player_repair_durability_value(fake_src(player), player))
+                player_src = server.get_player_command_source(player)
+                if player_src is None:
+                    continue
+                durability = int(get_player_repair_durability_value(player_src, player))
                 point = int(get_require_point_by_durability(durability))
                 if point > 0:
-                    if get_player_xp(fake_src(player), player) < get_require_point_by_durability(durability):
+                    if get_player_xp(player_src, player) < get_require_point_by_durability(durability):
                         server.tell(player, tr("xp_not_enough", player=player, after=get_level_by_point(point)))
                         continue
-                    xp_drop_handle(fake_src(player), player, point)
+                    xp_drop_handle(player_src, player, point)
         time.sleep(config.auto_repair_interval)
-    return
 
 def stop_xp_auto_repair():
     global auto_repair_running
@@ -171,7 +166,7 @@ def xp_auto_repair_without_player_set_status(src: InfoCommandSource, ctx):
             src.reply(tr("command.auto_repair.set", player=player, status=tr("command.auto_repair.status.off")))
         else:
             src.reply(tr("command.auto_repair.already", player=player, status=tr("command.auto_repair.status.off")))
-    server.as_plugin_server_interface().save_config_simple(config)
+    save_config()
 
 def xp_auto_repair_with_player_status(src: InfoCommandSource, ctx):
     player = ctx["rate/player"]
@@ -194,4 +189,4 @@ def xp_auto_repair_with_player_set_status(src: InfoCommandSource, ctx):
             src.reply(tr("command.auto_repair.set", player=player, status=tr("command.auto_repair.status.off")))
         else:
             src.reply(tr("command.auto_repair.already", player=player, status=tr("command.auto_repair.status.off")))
-    server.as_plugin_server_interface().save_config_simple(config)
+    save_config()

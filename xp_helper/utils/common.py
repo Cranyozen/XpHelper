@@ -1,14 +1,13 @@
-from mcdreforged.api.types import PluginServerInterface, InfoCommandSource
-from mcdreforged.api.rtext import RText, RTextList, RAction
+from mcdreforged import PluginServerInterface, InfoCommandSource, ServerInterface, RText, RTextList, RAction
 
 import re
 
-server = PluginServerInterface.get_instance()
+server = ServerInterface.psi()
 
 float_compile = re.compile(r'^0\.\d*$')
 
 def tr(tag: str, *args, **kwargs):
-    return PluginServerInterface.get_instance().tr(f'xp_helper.{tag}', *args, **kwargs)
+    return server.tr(f'xp_helper.{tag}', *args, **kwargs)
 
 def run_command_with_rcon(command: str) -> str:
     if not server.is_rcon_running():
@@ -26,6 +25,7 @@ def get_player_list() -> list:
 def get_player_info(src: InfoCommandSource, player: str, path: str):
     MCDataAPI = server.get_plugin_instance('minecraft_data_api')
     res = run_command_with_rcon(f'data get entity {player} {path}')
+    print(f"get_player_info: {player} {path} -> {res}")
     if res.startswith("Found no elements"):
         return None
     else:

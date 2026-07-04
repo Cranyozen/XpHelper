@@ -1,4 +1,4 @@
-from mcdreforged.api.types import InfoCommandSource
+from mcdreforged import InfoCommandSource
 
 
 from xp_helper.utils.player_xp import move_player_xp
